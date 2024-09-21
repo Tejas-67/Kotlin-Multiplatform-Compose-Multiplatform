@@ -58,6 +58,9 @@ kotlin {
 
             // compose image loader because coil is not yet supported
             implementation(libs.image.loader)
+
+            //toast
+            implementation(libs.cmptoast)
         }
         iosMain.dependencies {
             implementation(libs.native.driver)
