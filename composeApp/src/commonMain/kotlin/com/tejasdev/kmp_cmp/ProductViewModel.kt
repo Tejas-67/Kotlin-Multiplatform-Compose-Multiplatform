@@ -4,20 +4,19 @@ import com.tejasdev.kmp_cmp.data.Product
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProductViewModel: ViewModel() {
 
-    private val _products = MutableStateFlow(listOf<Product>())
+    private val _products = MutableStateFlow<List<Product>>(listOf())
     val products = _products.asStateFlow()
-
-    val repository = ProductRepository()
-
+    private val homeRepository = ProductRepository()
     init {
         viewModelScope.launch {
-            repository.getProducts().collect{ productResult ->
-                _products.update { it + productResult.data }
+            homeRepository.getProducts().collect { products ->
+                _products.update { it + products }
             }
         }
     }
